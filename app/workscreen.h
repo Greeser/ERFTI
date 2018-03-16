@@ -1,39 +1,32 @@
-#ifndef STARTSCREEN_H
-#define STARTSCREEN_H
+#ifndef WORKSCREEN_H
+#define WORKSCREEN_H
 
 #include <QWidget>
 #include <QTimer>
+#include <iostream>
 #include "opencv2/highgui/highgui.hpp"
 #include "opencv2/imgproc/imgproc.hpp"
-
 namespace Ui {
-class StartScreen;
+class WorkScreen;
 }
 
-class StartScreen : public QWidget
+class WorkScreen : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit StartScreen(QWidget *parent = 0);
-    ~StartScreen();
-
-signals:
-    void logged();
-
-public slots:
-
+    explicit WorkScreen(QWidget *parent = 0);
+    ~WorkScreen();
     void start_stream();
 
 private slots:
-
-    void on_logIn_clicked();
     void render_frame();
 
+
 private:
-    Ui::StartScreen *ui;
+    Ui::WorkScreen *ui;
     QTimer* image_timer;
     cv::VideoCapture mCapture;
 };
 
-#endif // STARTSCREEN_H
+#endif // WORKSCREEN_H

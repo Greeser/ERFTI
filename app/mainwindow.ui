@@ -49,7 +49,7 @@
       </sizepolicy>
      </property>
     </widget>
-    <widget class="QWidget" name="work_page"/>
+    <widget class="WorkScreen" name="work_page"/>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
@@ -61,6 +61,14 @@
      <height>19</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menuAction">
+    <property name="title">
+     <string>Action</string>
+    </property>
+    <addaction name="actionStart"/>
+    <addaction name="actionStop"/>
+   </widget>
+   <addaction name="menuAction"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">
@@ -71,6 +79,16 @@
    </attribute>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
+  <action name="actionStart">
+   <property name="text">
+    <string>Start</string>
+   </property>
+  </action>
+  <action name="actionStop">
+   <property name="text">
+    <string>Stop</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
@@ -78,6 +96,12 @@
    <class>StartScreen</class>
    <extends>QWidget</extends>
    <header>startscreen.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>WorkScreen</class>
+   <extends>QWidget</extends>
+   <header>workscreen.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

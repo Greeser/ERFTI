@@ -16,14 +16,17 @@ CONFIG += c++11
 SOURCES += main.cpp\
         mainwindow.cpp \
     startscreen.cpp \
-    c_qt_opencv_viewer_gl.cpp
+    c_qt_opencv_viewer_gl.cpp \
+    workscreen.cpp
 
 HEADERS  += mainwindow.h \
     startscreen.h \
-    c_qt_opencv_viewer_gl.h
+    c_qt_opencv_viewer_gl.h \
+    workscreen.h
 
 FORMS    += mainwindow.ui \
-    startscreen.ui
+    startscreen.ui \
+    workscreen.ui
 
 
 INCLUDEPATH += /usr/local/include/opencv
