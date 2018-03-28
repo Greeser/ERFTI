@@ -5,7 +5,7 @@
 #include <QTimer>
 #include "opencv2/highgui/highgui.hpp"
 #include "opencv2/imgproc/imgproc.hpp"
-
+#include "mainwindow.h"
 namespace Ui {
 class StartScreen;
 }
@@ -16,6 +16,12 @@ class StartScreen : public QWidget
 
 public:
     explicit StartScreen(QWidget *parent = 0);
+    bool setNet(pNet net) {
+        if (net)
+            net_ = net;
+        else
+            std::cerr<<"Didn't transferred to startscreen \n";
+    }
     ~StartScreen();
 
 signals:
@@ -34,6 +40,7 @@ private:
     Ui::StartScreen *ui;
     QTimer* image_timer;
     cv::VideoCapture mCapture;
+    pNet net_;
 };
 
 #endif // STARTSCREEN_H

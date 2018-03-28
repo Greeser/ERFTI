@@ -10,7 +10,6 @@ StartScreen::StartScreen(QWidget *parent) :
     image_timer = new QTimer(this);
     connect(image_timer,SIGNAL(timeout()),this,SLOT(render_frame()));
 
-
 }
 
 StartScreen::~StartScreen()
@@ -38,5 +37,12 @@ void StartScreen::render_frame()
 {
     cv::Mat frame;
     mCapture >> frame;
+    using Dim2Points = std::vector<std::vector<cv::Point2d>>;
+    Dim2Points points;
+    double min_face_size = 40;
+    auto result = net_->GetDetection(frame,12 / min_face_size, 0.7, true, 0.7, true, points);
+    for (auto & face : result) {
+        cv::rectangle(frame, face.first, cv::Scalar(255,0,0), 4);
+    }
     ui->inputWindow->showImage(frame);
 }

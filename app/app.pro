@@ -10,19 +10,30 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = app
 TEMPLATE = app
-CONFIG += c++11
+CONFIG += c++14
 
+DEFINES += USE_OPENCV #delete if you don't want use OpenCV
+DEFINES += CPU_ONLY #delete if you want use GPU
 
 SOURCES += main.cpp\
         mainwindow.cpp \
     startscreen.cpp \
     c_qt_opencv_viewer_gl.cpp \
-    workscreen.cpp
+    workscreen.cpp \
+    tracking/util/bounding_box.cpp \
+    tracking/util/help_functions.cpp \
+    tracking/caffe_binding.cpp \
+    tracking/cascade_cnn.cpp
 
 HEADERS  += mainwindow.h \
     startscreen.h \
     c_qt_opencv_viewer_gl.h \
-    workscreen.h
+    workscreen.h \
+    tracking/util/bounding_box.h \
+    tracking/util/help_functions.h \
+    tracking/caffe_binding.h \
+    tracking/thread_group.inc.h \
+    tracking/cascade_cnn.h
 
 FORMS    += mainwindow.ui \
     startscreen.ui \
@@ -37,3 +48,15 @@ LIBS += -L/usr/local/lib \
         -lopencv_videoio \
         -lopencv_highgui \
         -lopencv_imgcodecs \
+
+LIBS += \
+       -lboost_system\
+       -lboost_thread\
+       -lboost_filesystem\
+       -lglog
+
+INCLUDEPATH += $$PWD/caffe/include
+INCLUDEPATH += $$PWD/caffe/src
+
+LIBS += -L$$PWD/caffe/build/lib/ -lcaffe
+

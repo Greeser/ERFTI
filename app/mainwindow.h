@@ -3,12 +3,13 @@
 
 #include <QMainWindow>
 #include <QThread>
-
+#include "tracking/cascade_cnn.h"
 namespace Ui {
 class MainWindow;
 }
 
 enum class Screens {Start, Work} ;
+using pNet = std::shared_ptr<FaceInception::CascadeCNN>;
 
 class MainWindow : public QMainWindow
 {
@@ -23,7 +24,8 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-    Screens screen;
+    Screens screen_;
+    pNet net_;
 };
 
 #endif // MAINWINDOW_H
