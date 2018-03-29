@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QTimer>
 #include <iostream>
+#include "emotion/emotiw.h"
 #include "opencv2/highgui/highgui.hpp"
 #include "opencv2/imgproc/imgproc.hpp"
 namespace Ui {
@@ -27,6 +28,7 @@ private:
     Ui::WorkScreen *ui;
     QTimer* image_timer;
     cv::VideoCapture mCapture;
+    std::unique_ptr<EmotiW> classifier_;
 };
 
 #endif // WORKSCREEN_H

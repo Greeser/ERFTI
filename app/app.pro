@@ -23,7 +23,8 @@ SOURCES += main.cpp\
     tracking/util/bounding_box.cpp \
     tracking/util/help_functions.cpp \
     tracking/caffe_binding.cpp \
-    tracking/cascade_cnn.cpp
+    tracking/cascade_cnn.cpp \
+    emotion/emotiw.cpp
 
 HEADERS  += mainwindow.h \
     startscreen.h \
@@ -33,7 +34,8 @@ HEADERS  += mainwindow.h \
     tracking/util/help_functions.h \
     tracking/caffe_binding.h \
     tracking/thread_group.inc.h \
-    tracking/cascade_cnn.h
+    tracking/cascade_cnn.h \
+    emotion/emotiw.h
 
 FORMS    += mainwindow.ui \
     startscreen.ui \

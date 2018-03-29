@@ -9,6 +9,9 @@ WorkScreen::WorkScreen(QWidget *parent) :
 
     image_timer = new QTimer(this);
     connect(image_timer,SIGNAL(timeout()),this,SLOT(render_frame()));
+
+    classifier_.reset(new EmotiW("/home/greeser/Diplom/ERFTI/app/emotion/net/deploy.prototxt",
+                                 "/home/greeser/Diplom/ERFTI/app/emotion/net/EmotiW_VGG_S.caffemodel", -1));
 }
 
 WorkScreen::~WorkScreen()
