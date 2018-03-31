@@ -32,6 +32,54 @@ void WorkScreen::render_frame()
 {
     cv::Mat frame;
     mCapture >> frame;
+    using Dim2Points = std::vector<std::vector<cv::Point2d>>;
+    Dim2Points points;
+    double min_face_size = 40;
+    auto result = net_->GetDetection(frame,12 / min_face_size, 0.7, true, 0.7, true, points);
+    for (auto & face : result)
+    {
+        cv::rectangle(frame, face.first, cv::Scalar(255,0,0), 4);
+        current_frame_ = frame(face.first);
+    }
     ui->inputWindow->showImage(frame);
 }
 
+
+void WorkScreen::on_pushButton_clicked()
+{
+    cv::resize(current_frame_, current_frame_, cv::Size(256,256));
+    auto results = classifier_->GetEmotion(current_frame_);
+    render_result(results);
+}
+
+void WorkScreen::render_result(EmAndConf &eac)
+{
+    for(auto& em : eac)
+    {
+        switch(em.first)
+        {
+        case Emotion::Angry:
+            ui->angryBar->setValue(em.second * 100);
+            break;
+        case Emotion::Disgust:
+            ui->disgustBar->setValue(em.second * 100);
+            break;
+        case Emotion::Fear:
+            ui->fearBar->setValue(em.second * 100);
+            break;
+        case Emotion::Happy:
+            ui->happyBar->setValue(em.second * 100);
+            break;
+        case Emotion::Neutral:
+            ui->naturalBar->setValue(em.second * 100);
+            break;
+        case Emotion::Sad:
+            ui->sadBar->setValue(em.second * 100);
+            break;
+        case Emotion::Surprise:
+            ui->suprpiseBar->setValue(em.second * 100);
+            break;
+        }
+
+    }
+}

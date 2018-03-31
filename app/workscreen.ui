@@ -102,39 +102,60 @@
          <property name="orientation">
           <enum>Qt::Vertical</enum>
          </property>
-         <widget class="QProgressBar" name="progressBar_7">
+         <widget class="QProgressBar" name="suprpiseBar">
           <property name="value">
-           <number>24</number>
+           <number>0</number>
+          </property>
+          <property name="format">
+           <string>Suprise %p%</string>
           </property>
          </widget>
-         <widget class="QProgressBar" name="progressBar_6">
+         <widget class="QProgressBar" name="sadBar">
           <property name="value">
-           <number>24</number>
+           <number>0</number>
+          </property>
+          <property name="format">
+           <string>Sad %p%</string>
           </property>
          </widget>
-         <widget class="QProgressBar" name="progressBar">
+         <widget class="QProgressBar" name="angryBar">
           <property name="value">
-           <number>24</number>
+           <number>0</number>
+          </property>
+          <property name="format">
+           <string>Angry %p%</string>
           </property>
          </widget>
-         <widget class="QProgressBar" name="progressBar_2">
+         <widget class="QProgressBar" name="disgustBar">
           <property name="value">
-           <number>24</number>
+           <number>0</number>
+          </property>
+          <property name="format">
+           <string>Disgust %p%</string>
           </property>
          </widget>
-         <widget class="QProgressBar" name="progressBar_3">
+         <widget class="QProgressBar" name="fearBar">
           <property name="value">
-           <number>24</number>
+           <number>0</number>
+          </property>
+          <property name="format">
+           <string>Fear %p%</string>
           </property>
          </widget>
-         <widget class="QProgressBar" name="progressBar_4">
+         <widget class="QProgressBar" name="happyBar">
           <property name="value">
-           <number>24</number>
+           <number>0</number>
+          </property>
+          <property name="format">
+           <string>Happy %p%</string>
           </property>
          </widget>
-         <widget class="QProgressBar" name="progressBar_5">
+         <widget class="QProgressBar" name="naturalBar">
           <property name="value">
-           <number>24</number>
+           <number>0</number>
+          </property>
+          <property name="format">
+           <string>Natural %p%</string>
           </property>
          </widget>
         </widget>

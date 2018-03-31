@@ -27,7 +27,9 @@ EmAndConf EmotiW::GetEmotion(const cv::Mat image)
     {
         Emotion e = static_cast<Emotion>(i);
         e_.push_back(make_pair(e,data[i]));
+        std::cout<<i<<"=="<<data[i]<<std::endl;
     }
+    images_.pop_back();
     //const vector<float> emotions {data, data + 7};
     //auto max_id = max_element(emotions.cbegin(), emotions.cend());
     //e_ = static_cast<Emotion>(distance(emotions.cbegin(), max_id));

@@ -34,5 +34,7 @@ void MainWindow::log_in()
 {
     screen_ = Screens::Work;
     ui->stackedWidget->setCurrentIndex(static_cast<int>(screen_));
+    ui->work_page->setNet(net_);
     ui->work_page->start_stream();
+
 }

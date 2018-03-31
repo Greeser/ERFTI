@@ -18,9 +18,15 @@ public:
     explicit StartScreen(QWidget *parent = 0);
     bool setNet(pNet net) {
         if (net)
+        {
             net_ = net;
+            return true;
+        }
         else
+        {
             std::cerr<<"Didn't transferred to startscreen \n";
+            return false;
+        }
     }
     ~StartScreen();
 
