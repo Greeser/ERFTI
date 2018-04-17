@@ -44,6 +44,11 @@ void WorkScreen::render_frame()
     ui->inputWindow->showImage(frame);
 }
 
+void WorkScreen::set_name(QString name)
+{
+    ui->label_2->setText(name);
+}
+
 
 void WorkScreen::on_pushButton_clicked()
 {

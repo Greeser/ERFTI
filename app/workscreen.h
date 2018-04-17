@@ -32,8 +32,11 @@ public:
             return false;
         }
     }
+    void set_name(QString name);
+
 private slots:
     void render_frame();
+
 
     void on_pushButton_clicked();
 

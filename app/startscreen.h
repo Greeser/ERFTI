@@ -6,6 +6,8 @@
 #include "opencv2/highgui/highgui.hpp"
 #include "opencv2/imgproc/imgproc.hpp"
 #include "mainwindow.h"
+#include "qperson.h"
+
 namespace Ui {
 class StartScreen;
 }
@@ -20,6 +22,7 @@ public:
         if (net)
         {
             net_ = net;
+            FrameFeatures::init(net_);
             return true;
         }
         else
@@ -31,7 +34,7 @@ public:
     ~StartScreen();
 
 signals:
-    void logged();
+    void logged(QString name);
 
 public slots:
 
@@ -42,11 +45,15 @@ private slots:
     void on_logIn_clicked();
     void render_frame();
 
+    void on_signUp_clicked();
+
 private:
     Ui::StartScreen *ui;
     QTimer* image_timer;
     cv::VideoCapture mCapture;
     pNet net_;
+    QPersonSet persons_;
+
 };
 
 #endif // STARTSCREEN_H

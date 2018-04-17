@@ -11,7 +11,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     screen_ = Screens::Start;
-    connect(ui->start_page, SIGNAL(logged()), this, SLOT(log_in()));
+    connect(ui->start_page, SIGNAL(logged(QString)), this, SLOT(log_in(QString)));
     connect(ui->actionStart,SIGNAL(hovered()),ui->start_page,SLOT(start_stream()));
     int gpu_id = -1;
     std::string model_folder = "/home/greeser/Diplom/ERFTI/app/model";
@@ -30,11 +30,12 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::log_in()
+void MainWindow::log_in(QString name)
 {
     screen_ = Screens::Work;
     ui->stackedWidget->setCurrentIndex(static_cast<int>(screen_));
     ui->work_page->setNet(net_);
     ui->work_page->start_stream();
+    ui->work_page->set_name(name);
 
 }

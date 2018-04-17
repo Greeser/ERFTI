@@ -20,7 +20,7 @@ public:
     ~MainWindow();
 
 private slots:
-    void log_in();
+    void log_in(QString name);
 
 private:
     Ui::MainWindow *ui;

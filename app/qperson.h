@@ -6,6 +6,12 @@
 #include <QVariant>
 #include "frame_features.hpp"
 
+#include <string>
+#include <cstdint>
+#include <map>
+#include <vector>
+#include <list>
+
 class QPerson : public PersonFeatures
 {
 public:

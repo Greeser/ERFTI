@@ -1,12 +1,15 @@
 #include "qperson.h"
+#include <QDebug>
+#include <QJsonArray>
 
 #include "SimpleJSON/json.hpp"
-
-#include <QDebug>
 QPerson::QPerson(const QString &person_desc, const cv::Mat & image, int solution_version) : version_(solution_version)
 {
     person_desc_ = person_desc;
     append_features(image);
+    std::cout<<"Create "<<features.size()<<std::endl;
+    for(auto it = features.cbegin(); it != features.cend(); it++)
+        std::cout<<(*it).size()<<std::endl;
 }
 
 QPerson::QPerson(int id, const QString &person_desc,
@@ -24,13 +27,14 @@ void QPerson::append_features(cv::Mat const & image)
 void QPerson::set_features_json(const std::string &json)
 {
     features.clear();
+
     if (json.empty())
         return;
 
     try
     {
         auto obj = json::JSON::Load(json);
-
+   // std::cout<<obj.dump()<<std::endl;
         if (obj.IsNull() || obj.JSONType() != json::JSON::Class::Array)
             return;
 
@@ -38,14 +42,18 @@ void QPerson::set_features_json(const std::string &json)
         {
             std::vector<float> fs;
             for (auto & jf : jfs.ArrayRange())
-                fs.push_back((float)jf.ToFloat());
-
+            {
+                float f =(float)jf.ToFloat();
+                fs.push_back(f);
+            }
+            std::cout<<fs.size()<<std::endl;
             features.push_back(std::move(fs));
         }
     }
     catch (std::exception const &)
     {
     }
+
 }
 
 std::string QPerson::get_features_json() const
@@ -55,15 +63,16 @@ std::string QPerson::get_features_json() const
     for (auto & fs : features)
     {
         auto jfs = json::Array();
-
         for (auto f : fs)
         {
+            //double g = 0.13;
+           // std::cout<<std::to_string(g)<<std::endl;
             jfs.append(f);
         }
-
+        std::cout<<"JSON FK size="<<jfs.size()<<std::endl;
         obj.append(jfs);
     }
-
+    std::cout<<obj.dump()<<std::endl;
     return obj.dump();
 }
 
@@ -76,14 +85,14 @@ void QPerson::save_into_db(const QString &db_host, const QString &db_name, const
     db.setUserName(db_username);
     db.setPassword(db_password);
     bool ok = db.open();
-   // QSqlQuery query;
-    //query.exec("INSERT INTO persons (Name, SolutionVersion, KeyFeatures) VALUES (\"hh\",1, \"ggg\") ");
 
     QSqlQuery query;
     query.prepare("INSERT INTO persons (Name, SolutionVersion, KeyFeatures) VALUES (:Name, :SolVer, :KF)");
     query.bindValue(":Name", person_desc_);
     query.bindValue(":SolVer", version_);
-    query.bindValue(":KF", QString::fromStdString(get_features_json()));
+    std::string kf = get_features_json();
+   // std::cout<< kf<<std::endl;
+    query.bindValue(":KF", QString::fromStdString(kf));
     query.exec();
 
     db.close();
@@ -102,11 +111,12 @@ void QPersonSet::load_from_sql(const QString &db_host, const QString &db_name, c
     query.exec("SELECT Id, Name, SolutionVersion, KeyFeatures FROM persons");
     while (query.next())
     {
-        //auto person = std::make_shared<Person>(query.person_id, query.person_desc, query.key_features, query.solution_version);
-        auto person = std::make_shared<QPerson>(query.value(0).toInt(), query.value(1).toString(), query.value(3).toString(), query.value(2).toInt());
+        auto person = std::make_shared<QPerson>(query.value(0).toInt(), query.value(1).toString(),
+                                                query.value(3).toString(), query.value(2).toInt());
         persons.push_back(person);
     }
     db.close();
+
     std::vector<std::shared_ptr<PersonFeatures>> ps;
 
     for (auto i = persons.begin(); i != persons.end();)
@@ -128,6 +138,7 @@ std::vector<QPersonSet::QPersonPtr> QPersonSet::recognize(const cv::Mat &frame)
     {
         FrameFeatures ff;
         ff.generate_features(frame);
+
 
         auto found = ff.compare_persons(m_persons_features);
 

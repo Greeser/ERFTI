@@ -1,6 +1,7 @@
 #include "startscreen.h"
 #include "ui_startscreen.h"
 
+#include "QMessageBox"
 StartScreen::StartScreen(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::StartScreen)
@@ -9,7 +10,7 @@ StartScreen::StartScreen(QWidget *parent) :
 
     image_timer = new QTimer(this);
     connect(image_timer,SIGNAL(timeout()),this,SLOT(render_frame()));
-
+    persons_.load_from_sql("127.0.0.1", "ERFTI", "root", "root");
 }
 
 StartScreen::~StartScreen()
@@ -28,9 +29,31 @@ void StartScreen::start_stream()
 
 void StartScreen::on_logIn_clicked()
 {
-    image_timer->stop();
-    mCapture.release();
-    emit logged();
+    cv::Mat frame;
+    mCapture >> frame;
+    auto results = persons_.recognize(frame);
+    if (!results.empty())
+    {
+        std::shared_ptr<QPerson> person = results[0];
+        image_timer->stop();
+        mCapture.release();
+
+        QMessageBox q;
+        q.setText("You have logged as " + person->person_desc_);
+        q.setStandardButtons(QMessageBox::Ok);
+        q.setDefaultButton(QMessageBox::Ok);
+        q.exec();
+
+        emit logged(person->person_desc_);
+    }
+    else
+    {
+        QMessageBox q;
+        q.setText("Some error during logging has occurred.");
+        q.setStandardButtons(QMessageBox::Ok);
+        q.setDefaultButton(QMessageBox::Ok);
+        q.exec();
+    }
 }
 
 void StartScreen::render_frame()
@@ -45,4 +68,17 @@ void StartScreen::render_frame()
         cv::rectangle(frame, face.first, cv::Scalar(255,0,0), 4);
     }
     ui->inputWindow->showImage(frame);
+}
+
+void StartScreen::on_signUp_clicked()
+{
+    cv::Mat frame;
+    mCapture >> frame;
+    QPerson new_person("andriy", frame, 1);
+    new_person.save_into_db("127.0.0.1", "ERFTI", "root", "root");
+/*
+    cv::Mat test = cv::imread("/home/greeser/Work/face_recognition/facenet/data/images/Anthony_Hopkins_0001.jpg");
+    QPerson tp("Hopkins", test, 1);
+    tp.save_into_db("127.0.0.1", "ERFTI", "root", "root");
+*/
 }

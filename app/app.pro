@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui opengl
+QT       += core gui opengl sql
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -24,7 +24,10 @@ SOURCES += main.cpp\
     tracking/util/help_functions.cpp \
     tracking/caffe_binding.cpp \
     tracking/cascade_cnn.cpp \
-    emotion/emotiw.cpp
+    emotion/emotiw.cpp \
+    frame_features.cpp \
+    qperson.cpp \
+    recognition/person_classifier.cpp
 
 HEADERS  += mainwindow.h \
     startscreen.h \
@@ -35,7 +38,11 @@ HEADERS  += mainwindow.h \
     tracking/caffe_binding.h \
     tracking/thread_group.inc.h \
     tracking/cascade_cnn.h \
-    emotion/emotiw.h
+    emotion/emotiw.h \
+    frame_features.hpp \
+    SimpleJSON/json.hpp \
+    qperson.h \
+    recognition/person_classifier.h
 
 FORMS    += mainwindow.ui \
     startscreen.ui \
@@ -56,6 +63,8 @@ LIBS += \
        -lboost_thread\
        -lboost_filesystem\
        -lglog
+
+LIBS += -lodbc
 
 INCLUDEPATH += $$PWD/caffe/include
 INCLUDEPATH += $$PWD/caffe/src
