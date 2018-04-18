@@ -10,7 +10,17 @@ StartScreen::StartScreen(QWidget *parent) :
 
     image_timer = new QTimer(this);
     connect(image_timer,SIGNAL(timeout()),this,SLOT(render_frame()));
-    persons_.load_from_sql("127.0.0.1", "ERFTI", "root", "root");
+    persons_.reset(new QPersonSet());
+    persons_->load_from_sql("127.0.0.1", "ERFTI", "root", "root");
+}
+
+void StartScreen::updatePersons()
+{
+    if(persons_)
+        persons_.release();
+
+    persons_.reset(new QPersonSet());
+    persons_->load_from_sql("127.0.0.1", "ERFTI", "root", "root");
 }
 
 StartScreen::~StartScreen()
@@ -31,7 +41,7 @@ void StartScreen::on_logIn_clicked()
 {
     cv::Mat frame;
     mCapture >> frame;
-    auto results = persons_.recognize(frame);
+    auto results = persons_->recognize(frame);
     if (!results.empty())
     {
         std::shared_ptr<QPerson> person = results[0];
@@ -72,11 +82,16 @@ void StartScreen::render_frame()
 
 void StartScreen::on_signUp_clicked()
 {
+    image_timer->stop();
+    mCapture.release();
+
+    emit sign_up();
+/*
     cv::Mat frame;
     mCapture >> frame;
     QPerson new_person("andriy", frame, 1);
     new_person.save_into_db("127.0.0.1", "ERFTI", "root", "root");
-/*
+
     cv::Mat test = cv::imread("/home/greeser/Work/face_recognition/facenet/data/images/Anthony_Hopkins_0001.jpg");
     QPerson tp("Hopkins", test, 1);
     tp.save_into_db("127.0.0.1", "ERFTI", "root", "root");

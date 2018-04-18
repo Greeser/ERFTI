@@ -1,5 +1,6 @@
 #ifndef QPERSON_H
 #define QPERSON_H
+#pragma once
 #include <QString>
 #include <QtSql/QSqlDatabase>
 #include <QtSql/QSqlQuery>

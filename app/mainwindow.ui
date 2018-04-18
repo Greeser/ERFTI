@@ -50,6 +50,7 @@
      </property>
     </widget>
     <widget class="WorkScreen" name="work_page"/>
+    <widget class="SignScreen" name="sign_page"/>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
@@ -102,6 +103,12 @@
    <class>WorkScreen</class>
    <extends>QWidget</extends>
    <header>workscreen.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>SignScreen</class>
+   <extends>QWidget</extends>
+   <header>signscreen.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

@@ -10,8 +10,8 @@ WorkScreen::WorkScreen(QWidget *parent) :
     image_timer = new QTimer(this);
     connect(image_timer,SIGNAL(timeout()),this,SLOT(render_frame()));
 
-    classifier_.reset(new EmotiW("/home/greeser/Diplom/ERFTI/app/emotion/net/deploy.prototxt",
-                                 "/home/greeser/Diplom/ERFTI/app/emotion/net/EmotiW_VGG_S.caffemodel", -1));
+    classifier_.reset(new EmotiW("./emotion/net/deploy.prototxt",
+                                 "./emotion/net/EmotiW_VGG_S.caffemodel", -1));
 }
 
 WorkScreen::~WorkScreen()
@@ -39,7 +39,14 @@ void WorkScreen::render_frame()
     for (auto & face : result)
     {
         cv::rectangle(frame, face.first, cv::Scalar(255,0,0), 4);
-        current_frame_ = frame(face.first);
+        try
+        {
+            current_frame_ = frame(face.first);
+        }
+        catch(...)
+        {
+            //it's ok:
+        }
     }
     ui->inputWindow->showImage(frame);
 }

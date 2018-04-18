@@ -27,7 +27,8 @@ SOURCES += main.cpp\
     emotion/emotiw.cpp \
     frame_features.cpp \
     qperson.cpp \
-    recognition/person_classifier.cpp
+    recognition/person_classifier.cpp \
+    signscreen.cpp
 
 HEADERS  += mainwindow.h \
     startscreen.h \
@@ -42,11 +43,13 @@ HEADERS  += mainwindow.h \
     frame_features.hpp \
     SimpleJSON/json.hpp \
     qperson.h \
-    recognition/person_classifier.h
+    recognition/person_classifier.h \
+    signscreen.h
 
 FORMS    += mainwindow.ui \
     startscreen.ui \
-    workscreen.ui
+    workscreen.ui \
+    signscreen.ui
 
 
 INCLUDEPATH += /usr/local/include/opencv

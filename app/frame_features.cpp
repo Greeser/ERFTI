@@ -281,8 +281,8 @@ void FrameFeatures::init(std::shared_ptr<FaceInception::CascadeCNN> pDetector)
 #else
     int gpu_id = -1;
 #endif
-    classifier.reset(new PersonClassifier("/home/greeser/Diplom/ERFTI/app/recognition/net/VGG_FACE_deploy4096_L2.prototxt",
-                                           "/home/greeser/Diplom/ERFTI/app/recognition/net/VGG_FACE_4096.caffemodel",gpu_id));
+    classifier.reset(new PersonClassifier("./recognition/net/VGG_FACE_deploy4096_L2.prototxt",
+                                           "./recognition/net/VGG_FACE_4096.caffemodel",gpu_id));
 
 }
 

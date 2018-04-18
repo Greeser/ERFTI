@@ -8,7 +8,7 @@ namespace Ui {
 class MainWindow;
 }
 
-enum class Screens {Start, Work} ;
+enum class Screens {Start, Work, Sign} ;
 using pNet = std::shared_ptr<FaceInception::CascadeCNN>;
 
 class MainWindow : public QMainWindow
@@ -21,6 +21,8 @@ public:
 
 private slots:
     void log_in(QString name);
+    void sign_up();
+    void registered();
 
 private:
     Ui::MainWindow *ui;

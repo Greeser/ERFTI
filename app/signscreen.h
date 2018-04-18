@@ -1,5 +1,8 @@
-#ifndef STARTSCREEN_H
-#define STARTSCREEN_H
+#ifndef SIGNSCREEN_H
+#define SIGNSCREEN_H
+
+#include <QWidget>
+
 
 #include <QWidget>
 #include <QTimer>
@@ -9,20 +12,19 @@
 #include "qperson.h"
 
 namespace Ui {
-class StartScreen;
+class SignScreen;
 }
 
-class StartScreen : public QWidget
+class SignScreen : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit StartScreen(QWidget *parent = 0);
+    explicit SignScreen(QWidget *parent = 0);
     bool setNet(pNet net) {
         if (net)
         {
             net_ = net;
-            FrameFeatures::init(net_);
             return true;
         }
         else
@@ -31,31 +33,25 @@ public:
             return false;
         }
     }
-    void updatePersons();
-    ~StartScreen();
+    ~SignScreen();
 
 signals:
-    void logged(QString name);
-    void sign_up();
+    void registered();
 
 public slots:
-
     void start_stream();
 
 private slots:
-
-    void on_logIn_clicked();
     void render_frame();
 
-    void on_signUp_clicked();
+    void on_pushButton_clicked();
 
 private:
-    Ui::StartScreen *ui;
+    Ui::SignScreen *ui;
     QTimer* image_timer;
     cv::VideoCapture mCapture;
+    cv::Mat current_frame_;
     pNet net_;
-    std::unique_ptr<QPersonSet> persons_;
-
 };
 
-#endif // STARTSCREEN_H
+#endif // SIGNSCREEN_H
